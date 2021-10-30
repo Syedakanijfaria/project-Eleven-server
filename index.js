@@ -24,9 +24,17 @@ async function run() {
         const tourPlanCollection = client.db('tourismOffers').collection('details_data');
         app.get('/productTourPlans', async (req, res) => {
             const cursor = tourPlanCollection.find({});
-            const tourPlan = await cursor.toArray();
-            res.send(tourPlan);
-        })
+            const tourPlans = await cursor.toArray();
+            res.send(tourPlans);
+        });
+
+        app.get('/productTourPlans/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const tourPlan = await tourPlanCollection.findOne(query);
+            res.json(tourPlan);
+        });
+
     }
     finally {
         // await client.close()
