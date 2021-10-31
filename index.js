@@ -22,17 +22,28 @@ async function run() {
     try {
         await client.connect();
         const tourPlanCollection = client.db('tourismOffers').collection('details_data');
+        const userColection = client.db('tourismOffers').collection('user_data');
+
+        // get all plan services
         app.get('/productTourPlans', async (req, res) => {
             const cursor = tourPlanCollection.find({});
             const tourPlans = await cursor.toArray();
             res.send(tourPlans);
         });
-
+        // get single plan services
         app.get('/productTourPlans/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const tourPlan = await tourPlanCollection.findOne(query);
             res.json(tourPlan);
+        });
+
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            //console.log('hit the post api', user);
+            const result = await userColection.insertOne(user);
+            //console.log(result);
+            res.send(result);
         });
 
     }
