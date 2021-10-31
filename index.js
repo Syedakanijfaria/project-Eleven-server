@@ -12,7 +12,6 @@ app.use(express.json());
 const bodyParser = require('express');
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.nzkru.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 //console.log(uri);
 
@@ -37,7 +36,7 @@ async function run() {
             const tourPlan = await tourPlanCollection.findOne(query);
             res.json(tourPlan);
         });
-
+        // post userOrder by user
         app.post('/users', async (req, res) => {
             const user = req.body;
             //console.log('hit the post api', user);
@@ -45,7 +44,18 @@ async function run() {
             //console.log(result);
             res.send(result);
         });
-
+        // get all person userOrder
+        app.get('/users', async (req, res) => {
+            const cursor = userColection.find({});
+            const users = await cursor.toArray();
+            res.send(users);
+        });
+        // get single person UserOrder
+        app.get('/users/:email', async (req, res) => {
+            const query = { Email: req.params.email };
+            const user = await userColection.find(query).toArray();
+            res.json(user);
+        });
     }
     finally {
         // await client.close()
@@ -53,7 +63,11 @@ async function run() {
 }
 run().catch(console.dir);
 
-
+// /myOrder/:email
+// const query = {email:req.params.email}
+// orderCollection.find(query).toArray()
+// res.json(............)
+// fetch(`http://localhost;5000/myOrder/$(user.email)`
 
 app.get('/', (req, res) => {
     res.send('Hello Assignment how are!');
