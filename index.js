@@ -4,7 +4,6 @@ const port = process.env.PORT || 5000;
 const { MongoClient } = require('mongodb');
 const ObjectId = require('mongodb').ObjectId;
 const cors = require('cors');
-
 require('dotenv').config();
 //middleware
 app.use(cors());
@@ -16,7 +15,6 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
 //console.log(uri);
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
 async function run() {
     try {
         await client.connect();
@@ -68,6 +66,10 @@ async function run() {
             const query = { _id: ObjectId(id) };
             const result = await userColection.deleteOne(query);
             res.json(result);
+        });
+        //update pending statuts
+        app.put('/', async (res, req) => {
+
         });
     }
     finally {
