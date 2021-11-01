@@ -29,6 +29,12 @@ async function run() {
             const tourPlans = await cursor.toArray();
             res.send(tourPlans);
         });
+        //post new services by user
+        app.post('/productTourPlans', async (req, res) => {
+            const user = req.body;
+            const tourPlans = await tourPlanCollection.insertOne(user);
+            res.send(tourPlans);
+        })
         // get single plan services
         app.get('/productTourPlans/:id', async (req, res) => {
             const id = req.params.id;
@@ -56,12 +62,34 @@ async function run() {
             const user = await userColection.find(query).toArray();
             res.json(user);
         });
+        // delete single data from user
+        app.delete('/users/:email', async (req, res) => {
+            const id = req.params.email;
+            const query = { _id: ObjectId(id) };
+            const result = await userColection.deleteOne(query);
+            res.json(result);
+        });
     }
     finally {
         // await client.close()
     }
 }
 run().catch(console.dir);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // /myOrder/:email
 // const query = {email:req.params.email}
