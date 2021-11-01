@@ -88,27 +88,6 @@ async function run() {
 }
 run().catch(console.dir);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// /myOrder/:email
-// const query = {email:req.params.email}
-// orderCollection.find(query).toArray()
-// res.json(............)
-// fetch(`http://localhost;5000/myOrder/$(user.email)`
-
 app.get('/', (req, res) => {
     res.send('Hello Hard Assignment ');
 });
