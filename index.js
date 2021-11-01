@@ -68,8 +68,18 @@ async function run() {
             res.json(result);
         });
         //update pending statuts
-        app.put('/', async (res, req) => {
-
+        app.put('/users/:email', async (res, req) => {
+            const id = req.params.email;
+            const filter = { _id: ObjectId(id) };
+            userColection
+                .updateOne(filter, {
+                    $set: {
+                        status: "Approved",
+                    },
+                })
+                .then((result) => {
+                    res.send(result);
+                });
         });
     }
     finally {
@@ -100,7 +110,7 @@ run().catch(console.dir);
 // fetch(`http://localhost;5000/myOrder/$(user.email)`
 
 app.get('/', (req, res) => {
-    res.send('Hello Assignment how are!');
+    res.send('Hello Hard Assignment ');
 });
 
 app.listen(port, () => {
