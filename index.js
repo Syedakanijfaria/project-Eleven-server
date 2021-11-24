@@ -5,7 +5,10 @@ const { MongoClient } = require('mongodb');
 const ObjectId = require('mongodb').ObjectId;
 const cors = require('cors');
 require('dotenv').config();
+
+
 //middleware
+
 app.use(cors());
 app.use(express.json());
 const bodyParser = require('express');
@@ -60,13 +63,14 @@ async function run() {
             const user = await userColection.find(query).toArray();
             res.json(user);
         });
-        // delete single data from user
+        // delete single data from userOrder
         app.delete('/users/:email', async (req, res) => {
             const id = req.params.email;
             const query = { _id: ObjectId(id) };
             const result = await userColection.deleteOne(query);
             res.json(result);
         });
+
         //update pending statuts
         app.put('/users/:email', async (res, req) => {
             const id = req.params.email;
@@ -82,12 +86,15 @@ async function run() {
                 });
         });
     }
+
     finally {
         // await client.close()
     }
 }
+
 run().catch(console.dir);
 
+// first ever server site testing
 app.get('/', (req, res) => {
     res.send('Hello Hard Assignment ');
 });
